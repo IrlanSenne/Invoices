@@ -42,7 +42,6 @@ fun HomeScreen(
     navController: NavController?
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
 
     val invoicesFlow = mainViewModel?.getInvoiceFlow?.collectAsState()?.value
 
@@ -55,7 +54,14 @@ fun HomeScreen(
         },
         floatingActionButton = {
             InvoiceFloatingButton {
-                navController?.navigate(Routes.addWithInvoiceDetails(Routes.NEW_INVOICE, "", "", ""))
+                navController?.navigate(
+                    Routes.addWithInvoiceDetails(
+                        Routes.NEW_INVOICE,
+                        "",
+                        "",
+                        ""
+                    )
+                )
             }
         }
     ) { paddingValues ->
@@ -66,7 +72,9 @@ fun HomeScreen(
 
             is Resource.Success -> {
                 val invoices = invoicesFlow.result
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 8.dp)) {
                     if (invoices.isEmpty()) {
                         InvoiceWarningEmptyBox()
                     } else {
@@ -95,6 +103,7 @@ fun HomeScreen(
                     }
                 }
             }
+
             else -> {}
         }
     }

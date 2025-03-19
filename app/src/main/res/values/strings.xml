@@ -6,5 +6,8 @@
     <string name="content">Content</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="choose_image_resource">Choose Image Source</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="take_picture">Take Picture</string>
     <string name="no_invoices_to_display">No invoices to display. Tap to add a new one!</string>
 </resources>
