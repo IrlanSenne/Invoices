@@ -34,6 +34,7 @@ class MainViewModel @Inject constructor(
             is OnEvent.GetInvoices -> fetchInvoices()
             is OnEvent.DeleteInvoice -> deleteInvoice(event.invoice)
             is OnEvent.UpdateInvoice -> updateInvoice(event.invoice)
+            is OnEvent.ResetState -> resetState()
         }
     }
 
@@ -88,5 +89,9 @@ class MainViewModel @Inject constructor(
                 _addInvoiceFlow.value = Resource.Failure(e)
             }
         }
+    }
+
+    private fun resetState() {
+        _addInvoiceFlow.value = null
     }
 }

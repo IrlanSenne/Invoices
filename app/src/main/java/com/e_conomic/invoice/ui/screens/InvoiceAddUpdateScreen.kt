@@ -1,6 +1,7 @@
 package com.e_conomic.invoice.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,11 +38,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.e_conomic.invoice.R
 import com.e_conomic.invoice.core.MainViewModel
+import com.e_conomic.invoice.core.Routes
 import com.e_conomic.invoice.core.Routes.Companion.NEW_INVOICE
 import com.e_conomic.invoice.data.OnEvent
+import com.e_conomic.invoice.data.Resource
 import com.e_conomic.invoice.data.entities.InvoiceEntity
+import com.e_conomic.invoice.ui.components.InvoiceCard
 import com.e_conomic.invoice.ui.components.InvoiceTextField
 import com.e_conomic.invoice.ui.components.InvoiceTopBar
+import com.e_conomic.invoice.ui.components.InvoiceWarningEmptyBox
 import kotlin.random.Random
 
 @Composable
@@ -64,7 +73,7 @@ fun InvoiceAddUpdateScreen(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
             InvoiceTopBar(
-                title = invoiceTitle ?: stringResource(R.string.add_invoice),
+                title = if (invoiceId != NEW_INVOICE) invoiceTitle ?: "" else stringResource(R.string.add_invoice),
                 navigationIconClick = {
                     navController?.navigateUp()
                 }
@@ -109,13 +118,13 @@ fun InvoiceAddUpdateScreen(
             Spacer(modifier = Modifier.height(24.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
 
                 Button(
-                    modifier = Modifier.fillMaxWidth(0.5f),
+                    modifier = Modifier.weight(1f).fillMaxWidth(0.5f),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red,
+                        containerColor = Color.Blue,
                         contentColor = Color.White
                     ),
                     onClick = {
@@ -148,7 +157,7 @@ fun InvoiceAddUpdateScreen(
 
                 if (invoiceId != NEW_INVOICE) {
                     Button(
-                        modifier = Modifier.fillMaxWidth(0.5f),
+                        modifier = Modifier.weight(1f).fillMaxWidth(0.5f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Red,
                             contentColor = Color.White
@@ -176,5 +185,17 @@ fun InvoiceAddUpdateScreen(
                 }
             }
         }
+    }
+
+    when (addNoteFlow) {
+        is Resource.Loading -> {
+            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+        }
+
+        is Resource.Success -> {
+            viewModel.onEvent(OnEvent.ResetState)
+            navController?.navigateUp()
+        }
+        else -> {}
     }
 }

@@ -12,5 +12,6 @@ sealed class OnEvent {
     data class AddInvoice(val invoice: InvoiceEntity): OnEvent()
     data class UpdateInvoice(val invoice: InvoiceEntity): OnEvent()
     data object GetInvoices: OnEvent()
+    data object ResetState: OnEvent()
     data class DeleteInvoice(val invoice: InvoiceEntity): OnEvent()
 }

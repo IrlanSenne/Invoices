@@ -80,7 +80,7 @@ fun HomeScreen(
                                     navController?.navigate(
                                         Routes.addWithInvoiceDetails(
                                             invoice.invoiceId,
-                                            invoice.content,
+                                            invoice.title,
                                             invoice.content,
                                             invoice.image
                                         )
@@ -95,17 +95,6 @@ fun HomeScreen(
                     }
                 }
             }
-
-/*            mainViewModel?.onEvent(
-                OnEvent.AddInvoice(
-                    InvoiceEntity(
-                        "",
-                        "test digi",
-                        "digi content test",
-                        ""
-                    )
-                )
-            )*/
             else -> {}
         }
     }

@@ -62,9 +62,7 @@ fun MainNavigation(mainViewModel: MainViewModel) {
             val noteId = backStackEntry.arguments?.getString("invoiceId") ?: Routes.NEW_INVOICE
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
-            val content = backStackEntry.arguments?.getString("content")?.let {
-                URLEncoder.encode(it, StandardCharsets.UTF_8.toString())
-            } ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
 
             InvoiceAddUpdateScreen(
                 viewModel = mainViewModel,
@@ -81,10 +79,10 @@ fun MainNavigation(mainViewModel: MainViewModel) {
 class Routes {
     companion object {
         const val HOME = "home"
-        const val INVOICE_DETAIL = "invoice"
+        const val INVOICE_DETAIL = "invoice_detail"
         const val NEW_INVOICE = "-1"
 
-        fun addWithInvoiceDetails(noteId: String?, title: String?, content: String?, image: String?) =
-            "$INVOICE_DETAIL?invoiceId=$noteId&title=$title&content=${content}&image=${image}"
+        fun addWithInvoiceDetails(invoiceId: String?, title: String?, content: String?, image: String?) =
+            "$INVOICE_DETAIL?invoiceId=$invoiceId&title=$title&content=${content}&image=${image}"
     }
 }
