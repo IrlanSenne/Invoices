@@ -9,22 +9,26 @@ class InvoiceRepositoryImpl @Inject constructor(
     private val invoiceDao: InvoicesDao,
 ) : InvoiceRepository {
     override suspend fun deleteInvoice(invoice: InvoiceEntity) {
-        TODO("Not yet implemented")
+        return try {
+            invoiceDao.deleteNote(invoice)
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override fun getInvoices(): Flow<List<InvoiceEntity>> {
-        TODO("Not yet implemented")
+        return try {
+            invoiceDao.getAllNotes()
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override suspend fun saveInvoice(invoice: InvoiceEntity) {
-        TODO("Not yet implemented")
+        invoiceDao.insertInvoice(invoice)
     }
 
     override suspend fun updateInvoiceLocal(invoice: InvoiceEntity) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteAllInvoicesLocal() {
-        TODO("Not yet implemented")
+        invoiceDao.updateNote(invoice)
     }
 }

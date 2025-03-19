@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">e-conomic Invoice</string>
+    <string name="invoices">Invoices</string>
+    <string name="add_invoice">Add Invoice</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="no_invoices_to_display">No invoices to display. Tap to add a new one!</string>
 </resources>

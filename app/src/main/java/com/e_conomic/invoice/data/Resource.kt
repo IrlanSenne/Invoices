@@ -1,5 +1,7 @@
 package com.e_conomic.invoice.data
 
+import com.e_conomic.invoice.data.entities.InvoiceEntity
+
 sealed class Resource<out R> {
     data class Success<out R>(val result: R) : Resource<R>()
     data class Failure(val exception: Exception) : Resource<Nothing>()
@@ -7,6 +9,8 @@ sealed class Resource<out R> {
 }
 
 sealed class OnEvent {
-    object AddInvoice: OnEvent()
-/*    data class Invoices(val notes: List<InvoiceEntity>): OnEvent()*/
+    data class AddInvoice(val invoice: InvoiceEntity): OnEvent()
+    data class UpdateInvoice(val invoice: InvoiceEntity): OnEvent()
+    data object GetInvoices: OnEvent()
+    data class DeleteInvoice(val invoice: InvoiceEntity): OnEvent()
 }

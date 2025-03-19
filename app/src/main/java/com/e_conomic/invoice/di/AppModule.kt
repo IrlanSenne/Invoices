@@ -6,7 +6,10 @@ import com.e_conomic.invoice.data.localdatabase.InvoicesDao
 import com.e_conomic.invoice.data.localdatabase.InvoicesDataBase
 import com.e_conomic.invoice.data.repository.InvoiceRepository
 import com.e_conomic.invoice.data.repository.InvoiceRepositoryImpl
+import com.e_conomic.invoice.usecases.DeleteInvoiceUseCase
 import com.e_conomic.invoice.usecases.GetInvoicesUseCase
+import com.e_conomic.invoice.usecases.SaveInvoiceUseCase
+import com.e_conomic.invoice.usecases.UpdateInvoiceUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,5 +50,23 @@ object AppModule {
     @Singleton
     fun provideGetInvoicesUseCase(repository: InvoiceRepository): GetInvoicesUseCase {
         return GetInvoicesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaveInvoicesUseCase(repository: InvoiceRepository): SaveInvoiceUseCase {
+        return SaveInvoiceUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateInvoicesUseCase(repository: InvoiceRepository): UpdateInvoiceUseCase {
+        return UpdateInvoiceUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteInvoicesUseCase(repository: InvoiceRepository): DeleteInvoiceUseCase {
+        return DeleteInvoiceUseCase(repository)
     }
 }

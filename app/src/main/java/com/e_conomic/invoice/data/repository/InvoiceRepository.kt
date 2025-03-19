@@ -8,7 +8,5 @@ interface InvoiceRepository {
     suspend fun deleteInvoice(invoice: InvoiceEntity)
     fun getInvoices(): Flow<List<InvoiceEntity>>
     suspend fun saveInvoice(invoice: InvoiceEntity)
-
     suspend fun updateInvoiceLocal(invoice: InvoiceEntity)
-    suspend fun deleteAllInvoicesLocal()
 }
