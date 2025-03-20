@@ -41,6 +41,14 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE-notice.md")
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/*.RSA")
+        exclude("META-INF/*.SF")
+        exclude("META-INF/*.DSA")
+    }
 }
 
 dependencies {
