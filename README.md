@@ -22,6 +22,8 @@ This project was developed using the best practices recommended by Google for na
 - **Coroutines**: For managing asynchronous operations.
 - **UseCases**: Separation of business logic into use cases.
 - **Native Camera and Gallery Libraries**: To capture and select images.
+- **Mockito**: For mocking dependencies in unit tests.
+- **JUnit**: For running unit tests.
 
 ## Project Structure
 
