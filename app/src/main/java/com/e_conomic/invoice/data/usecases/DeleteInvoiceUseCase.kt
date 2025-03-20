@@ -1,4 +1,4 @@
-package com.e_conomic.invoice.usecases
+package com.e_conomic.invoice.data.usecases
 
 import com.e_conomic.invoice.data.entities.InvoiceEntity
 import com.e_conomic.invoice.data.repository.InvoiceRepository

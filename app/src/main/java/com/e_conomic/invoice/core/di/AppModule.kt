@@ -1,4 +1,4 @@
-package com.e_conomic.invoice.di
+package com.e_conomic.invoice.core.di
 
 import android.content.Context
 import androidx.room.Room
@@ -6,10 +6,10 @@ import com.e_conomic.invoice.data.localdatabase.InvoicesDao
 import com.e_conomic.invoice.data.localdatabase.InvoicesDataBase
 import com.e_conomic.invoice.data.repository.InvoiceRepository
 import com.e_conomic.invoice.data.repository.InvoiceRepositoryImpl
-import com.e_conomic.invoice.usecases.DeleteInvoiceUseCase
-import com.e_conomic.invoice.usecases.GetInvoicesUseCase
-import com.e_conomic.invoice.usecases.SaveInvoiceUseCase
-import com.e_conomic.invoice.usecases.UpdateInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.DeleteInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.GetInvoicesUseCase
+import com.e_conomic.invoice.data.usecases.SaveInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.UpdateInvoiceUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

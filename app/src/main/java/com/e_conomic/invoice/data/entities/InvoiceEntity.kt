@@ -8,6 +8,7 @@ data class InvoiceEntity(
     @PrimaryKey
     var invoiceId: String = "",
     var title: String = "",
-    var content: String = "",
+    var date: String = System.currentTimeMillis().toString(),
+    var totalAmount: Float = 0f,
     val image: String = ""
 )

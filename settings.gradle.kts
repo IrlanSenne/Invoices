@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "e-conomic Invoice"
 include(":app")
- 
+include(":core")
+

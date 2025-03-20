@@ -1,15 +1,15 @@
-package com.e_conomic.invoice.usecases
+package com.e_conomic.invoice.data.usecases
 
 import com.e_conomic.invoice.data.entities.InvoiceEntity
 import com.e_conomic.invoice.data.repository.InvoiceRepository
 
-class UpdateInvoiceUseCase(
+class SaveInvoiceUseCase(
     private val repository: InvoiceRepository
 ) : BaseUseCase<InvoiceEntity, Unit> {
 
     override suspend fun execute(input: InvoiceEntity) {
         try {
-            repository.updateInvoiceLocal(input)
+            repository.saveInvoice(input)
         } catch (e: Exception) {
             throw e
         }

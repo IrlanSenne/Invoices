@@ -10,8 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.e_conomic.invoice.ui.screens.HomeScreen
 import com.e_conomic.invoice.ui.screens.InvoiceAddUpdateScreen
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun MainNavigation(mainViewModel: MainViewModel) {
@@ -35,7 +33,7 @@ fun MainNavigation(mainViewModel: MainViewModel) {
         }
 
         composable(
-            route = "${Routes.INVOICE_DETAIL}?invoiceId={invoiceId}&title={title}&content={content}&image={image}",
+            route = "${Routes.INVOICE_DETAIL}?invoiceId={invoiceId}&title={title}&totalAmount={totalAmount}&date={date}&image={image}",
             arguments = listOf(
                 navArgument("noteId") {
                     type = NavType.StringType
@@ -45,13 +43,17 @@ fun MainNavigation(mainViewModel: MainViewModel) {
                     type = NavType.StringType
                     defaultValue = ""
                 },
-                navArgument("content") {
+                navArgument("date") {
                     type = NavType.StringType
                     defaultValue = ""
                 },
                 navArgument("image") {
                     type = NavType.StringType
                     defaultValue = ""
+                },
+                navArgument("totalAmount") {
+                    type = NavType.FloatType
+                    defaultValue = 0f
                 }
             ),
             enterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
@@ -62,14 +64,16 @@ fun MainNavigation(mainViewModel: MainViewModel) {
             val noteId = backStackEntry.arguments?.getString("invoiceId") ?: Routes.NEW_INVOICE
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
-            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val date = backStackEntry.arguments?.getString("date") ?: ""
+            val totalAmount = backStackEntry.arguments?.getFloat("totalAmount") ?: 0f
 
             InvoiceAddUpdateScreen(
                 viewModel = mainViewModel,
                 navController = navController,
                 invoiceId = noteId,
                 invoiceTitle = title,
-                invoiceContent = content,
+                invoiceDate = date,
+                totalAmount = totalAmount,
                 invoiceImage = image
             )
         }
@@ -82,7 +86,7 @@ class Routes {
         const val INVOICE_DETAIL = "invoice_detail"
         const val NEW_INVOICE = "-1"
 
-        fun addWithInvoiceDetails(invoiceId: String?, title: String?, content: String?, image: String?) =
-            "$INVOICE_DETAIL?invoiceId=$invoiceId&title=$title&content=${content}&image=${image}"
+        fun addWithInvoiceDetails(invoiceId: String?, title: String?, date: String?, totalAmount: Float, image: String?) =
+            "$INVOICE_DETAIL?invoiceId=$invoiceId&title=$title&date=${date}&totalAmount=${totalAmount}&image=${image}"
     }
 }

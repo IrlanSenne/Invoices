@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.e_conomic.invoice.data.OnEvent
 import com.e_conomic.invoice.data.Resource
 import com.e_conomic.invoice.data.entities.InvoiceEntity
-import com.e_conomic.invoice.usecases.DeleteInvoiceUseCase
-import com.e_conomic.invoice.usecases.GetInvoicesUseCase
-import com.e_conomic.invoice.usecases.SaveInvoiceUseCase
-import com.e_conomic.invoice.usecases.UpdateInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.DeleteInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.GetInvoicesUseCase
+import com.e_conomic.invoice.data.usecases.SaveInvoiceUseCase
+import com.e_conomic.invoice.data.usecases.UpdateInvoiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

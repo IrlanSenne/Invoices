@@ -1,4 +1,4 @@
-package com.e_conomic.invoice.utils
+package com.e_conomic.invoice.data.utils
 
 import android.content.ContentValues
 import android.content.Context
@@ -10,6 +10,10 @@ import android.provider.MediaStore
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun saveBitmapAndGetUri(context: Context, bitmap: Bitmap): Uri? {
     val filename = "image_${System.currentTimeMillis()}.png"
@@ -41,6 +45,31 @@ fun saveBitmapAndGetUri(context: Context, bitmap: Bitmap): Uri? {
     }
 
     return imageUri
+}
+
+fun saveImageFromUri(context: Context, uri: Uri): String? {
+    val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+    val file = File(context.filesDir, "${System.currentTimeMillis()}.jpg")
+    val outputStream = FileOutputStream(file)
+
+    inputStream.use { input ->
+        outputStream.use { output ->
+            input.copyTo(output)
+        }
+    }
+
+    return file.absolutePath
+}
+
+fun formatDateFromMillis(timeInMillis: Long): String {
+    val sdf = SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH)
+    val date = Date(timeInMillis)
+    return sdf.format(date)
+}
+
+fun formatToDollar(amount: Float): String {
+    val numberFormat = NumberFormat.getCurrencyInstance(Locale.US)
+    return numberFormat.format(amount)
 }
 
 

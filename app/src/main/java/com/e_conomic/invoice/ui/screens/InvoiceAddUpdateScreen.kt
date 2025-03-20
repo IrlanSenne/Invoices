@@ -36,7 +36,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,10 +54,12 @@ import com.e_conomic.invoice.core.Routes.Companion.NEW_INVOICE
 import com.e_conomic.invoice.data.OnEvent
 import com.e_conomic.invoice.data.Resource
 import com.e_conomic.invoice.data.entities.InvoiceEntity
+import com.e_conomic.invoice.data.utils.formatToDollar
+import com.e_conomic.invoice.data.utils.saveBitmapAndGetUri
+import com.e_conomic.invoice.data.utils.saveImageFromUri
 import com.e_conomic.invoice.ui.components.InvoiceDialogPicture
 import com.e_conomic.invoice.ui.components.InvoiceTextField
 import com.e_conomic.invoice.ui.components.InvoiceTopBar
-import com.e_conomic.invoice.utils.saveBitmapAndGetUri
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +69,8 @@ fun InvoiceAddUpdateScreen(
     navController: NavController? = null,
     invoiceId: String? = null,
     invoiceTitle: String? = null,
-    invoiceContent: String? = null,
+    invoiceDate: String? = null,
+    totalAmount: Float? = null,
     invoiceImage: String? = null
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -77,9 +79,11 @@ fun InvoiceAddUpdateScreen(
     val addNoteFlow = viewModel?.addInvoiceFlow?.collectAsState()?.value
 
     var title by remember { mutableStateOf(invoiceTitle ?: "") }
-    var content by remember { mutableStateOf(invoiceContent ?: "") }
+    var date by remember { mutableStateOf(invoiceDate ?: "") }
     var selectedImage by remember { mutableStateOf(invoiceImage ?: "") }
-
+    var selectedTotalAmount by remember {
+        mutableStateOf(String.format("%.2f", totalAmount ?: 0f))
+    }
     var isErrorTitle by remember { mutableStateOf(false) }
     var showImagePickerDialog by remember { mutableStateOf(false) }
 
@@ -87,7 +91,10 @@ fun InvoiceAddUpdateScreen(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            selectedImage = it.toString()
+            val filePath = saveImageFromUri(context, it)
+            if (filePath != null) {
+                selectedImage = filePath
+            }
         }
     }
 
@@ -180,17 +187,21 @@ fun InvoiceAddUpdateScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             InvoiceTextField(
-                value = content,
-                onValueChange = {
-                    content = it
+                value = selectedTotalAmount.toString(),
+                onValueChange = { newValue ->
+                    val cleanValue = newValue.replace(",", ".") // Substituir vírgula por ponto, se necessário
+                    val floatValue = cleanValue.toFloatOrNull() ?: 0f
+
+                    // Formatar para sempre ter 2 casas decimais
+                    selectedTotalAmount = String.format("%.2f", floatValue)
                 },
-                label = stringResource(R.string.content),
+                label = stringResource(R.string.totalAmount),
                 isError = false,
                 textStyle = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxWidth(),
-                maxLines = 5,
-                height = 100.dp
+                singleLine = true
             )
+
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -213,7 +224,7 @@ fun InvoiceAddUpdateScreen(
                             invoiceId = invoiceId.takeIf { it != NEW_INVOICE }
                                 ?: Random.nextInt(1, Int.MAX_VALUE).toString(),
                             title = title,
-                            content = content,
+                            totalAmount = selectedTotalAmount.toFloat(),
                             image = selectedImage
                         )
 
@@ -244,10 +255,10 @@ fun InvoiceAddUpdateScreen(
                                 viewModel?.onEvent(
                                     OnEvent.DeleteInvoice(
                                         InvoiceEntity(
-                                            invoiceId,
-                                            title,
-                                            content,
-                                            selectedImage
+                                            invoiceId = invoiceId,
+                                            title = title,
+                                            totalAmount = selectedTotalAmount.toFloat(),
+                                            image = selectedImage
                                         )
                                     )
                                 )
